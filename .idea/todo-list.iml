@@ -10,5 +10,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="typescript" />
+    <orderEntry type="module" module-name="delivery-project" />
+    <orderEntry type="module" module-name="geotechmon-frontend" />
   </component>
 </module>
