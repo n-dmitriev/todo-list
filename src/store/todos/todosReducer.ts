@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-export interface todo {
+export interface todoInterface {
     id: string,
     completed: boolean,
     title: string,
@@ -8,8 +8,8 @@ export interface todo {
 }
 
 interface interfaceState {
-    todoList: todo[];
-    activeTodo: todo | null
+    todoList: todoInterface[];
+    activeTodo: todoInterface | null
 }
 
 const initialState: interfaceState = {
@@ -17,15 +17,15 @@ const initialState: interfaceState = {
     activeTodo: null
 }
 
-const arraySlice = createSlice({
+const todoSlice = createSlice({
     name: 'todos',
     initialState,
     reducers: {
-        addToDo: (state, action: PayloadAction<todo>) => {
+        addToDo: (state, action: PayloadAction<todoInterface>) => {
             state.todoList.push(action.payload)
         }
     }
 })
 
-export const {addToDo} = arraySlice.actions
-export default arraySlice.reducer
+export const {addToDo} = todoSlice.actions
+export default todoSlice.reducer

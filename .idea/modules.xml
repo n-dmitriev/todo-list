@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../delivery-project/.idea/delivery-project.iml" filepath="$PROJECT_DIR$/../delivery-project/.idea/delivery-project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../Accelcomp/geotechmon-frontend/.idea/geotechmon-frontend.iml" filepath="$PROJECT_DIR$/../../Accelcomp/geotechmon-frontend/.idea/geotechmon-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../redux-toolkit-todo/.idea/redux-toolkit-todo.iml" filepath="$PROJECT_DIR$/../redux-toolkit-todo/.idea/redux-toolkit-todo.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/todo-list.iml" filepath="$PROJECT_DIR$/.idea/todo-list.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../typescript/.idea/typescript.iml" filepath="$PROJECT_DIR$/../typescript/.idea/typescript.iml" />
     </modules>
   </component>
 </project>
