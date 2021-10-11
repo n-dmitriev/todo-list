@@ -1,6 +1,11 @@
 @import "css/normalize.css";
 @import "css/mixins";
+@import '~antd/dist/antd.css';
 
 .app {
+  min-height: 100vh;
+}
 
+textarea {
+  resize: none;
 }

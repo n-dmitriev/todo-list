@@ -1,0 +1,16 @@
+.login {
+  background: #d1d1d1;
+  display: flex;
+
+  &__form {
+    margin: auto;
+    background-color: white;
+    padding: 30px 20px 10px 20px;
+  }
+
+  &__password {
+    top: -10px;
+    left: 10px;
+    position: relative;
+  }
+}

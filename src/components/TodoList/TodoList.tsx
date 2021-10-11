@@ -1,18 +1,40 @@
 import * as React from 'react'
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/rootReducer";
-import {todoInterface} from '../../store/todos/todosReducer';
-import {TodoItem} from '../TodoItem/TodoItem'
+import {List, Checkbox} from 'antd';
+import {EditOutlined, EllipsisOutlined} from '@ant-design/icons';
+import {ITodo} from "../../models/ITodo";
 
 interface Props {
 }
 
 export const TodoList: React.FC = (props: Props) => {
-    const {todoList} = useSelector((state: RootState) => state.todo)
+    const {activeProject} = useSelector((state: RootState) => state.todo)
+
+    const onChange = () => {
+
+    }
 
     return (
         <div className={'todo__list'}>
-            {todoList.map((item: todoInterface) => <TodoItem key={item.id} data={item}/>)}
+            <List
+                dataSource={activeProject?.todosList || []}
+                renderItem={(item: ITodo) =>
+                    <List.Item
+                        key={item.id}
+                        actions={[
+                            <EditOutlined/>,
+                            <EllipsisOutlined/>
+                        ]}>
+                        <List.Item.Meta
+                            avatar={<Checkbox onChange={onChange}/>}
+                            title={item.title}
+                            description={item.text}
+                        />
+                    </List.Item>
+                }
+            >
+            </List>
         </div>
     )
 }

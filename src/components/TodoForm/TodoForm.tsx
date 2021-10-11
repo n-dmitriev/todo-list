@@ -1,38 +1,69 @@
 import * as React from 'react'
-import {useState, ChangeEvent} from 'react';
-import {useDispatch} from 'react-redux';
-import {generateId} from '../../common/utils';
-import {addToDo, todoInterface} from '../../store/todos/todosReducer';
+import {useEffect, useState} from 'react'
+import {useDispatch} from 'react-redux'
+import {Form, Input, Card} from 'antd'
+import {CloseOutlined, CheckOutlined} from '@ant-design/icons'
+import {useTypedSelector} from "../../common/hooks";
+import {createTodo} from '../../store/todoProject/todoActions\''
 
 interface Props {
+    showOrHideForm: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const TodoForm: React.FC = (props: Props) => {
+export const TodoForm: React.FC<Props> = (props: Props) => {
     const dispatch = useDispatch()
+    const {activeProject} = useTypedSelector(state => state.todo)
+    const [title, setTitle] = useState('')
+    const [text, setText] = useState('')
 
-    const [title, setTitle] = useState(''),
-        [text, setText] = useState('')
-
-    const onChange = (set: React.Dispatch<React.SetStateAction<string>>) =>
-        ({target: {value}}: ChangeEvent<HTMLInputElement>) => value.trim().length && set(value)
+    useEffect(() => {
+        resetInputs()
+    }, [activeProject])
 
     const onCreateTodo = () => {
-        const data: todoInterface = {
-            id: generateId(),
-            completed: false,
-            title: title,
-            text: text
+        if (title.trim() && text.trim()) {
+            dispatch(createTodo({title, text}))
+            resetInputs()
         }
-        dispatch(addToDo(data))
+    }
+
+    const resetInputs = () => {
+        setTitle('')
+        setText('')
     }
 
     return (
         <div className={'todo__form'}>
-            <input type="text" value={title} onChange={onChange(setTitle)} placeholder={'Заголовок'}/>
-            <input type="text" value={text} onChange={onChange(setText)} placeholder={'Описание'}/>
-            <button onClick={onCreateTodo}>Добавить задачу</button>
+            <Card
+                actions={[
+                    <CheckOutlined onClick={onCreateTodo}/>,
+                    <CloseOutlined onClick={() => props.showOrHideForm(false)}/>
+                ]}
+            >
+                <Form>
+                    <Form.Item
+                        name="title"
+                        rules={[{required: true, message: 'Введите заголовок задачи!'}]}
+                    >
+                        <div className="ant-form-item-control-input-content">
+                            <input type={'text'} className="ant-input"
+                                   placeholder={'Заголовок задачи'} value={title}
+                                   onChange={e => setTitle(e.target.value)}/>
+                        </div>
+                    </Form.Item>
+                    <Form.Item name="text">
+                        <div className="ant-form-item-control-input-content">
+                            <textarea className="ant-input" cols={3}
+                                      placeholder={'Описание задачи'} value={text}
+                                      onChange={e => setText(e.target.value)}/>
+                        </div>
+                    </Form.Item>
+                </Form>
+            </Card>
         </div>
     )
 }
 
-TodoForm.defaultProps = {}
+TodoForm.defaultProps = {
+    showOrHideForm: () => null
+}
