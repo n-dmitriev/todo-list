@@ -21,16 +21,20 @@ const slice = createSlice({
         addTodo: (state, action: PayloadAction<ITodo>) => {
             state.activeProject?.todosList.push(action.payload)
         },
-        setEditableTodo: (state, action: PayloadAction<ITodo>) => {
+        setEditableTodo: (state, action: PayloadAction<ITodo | null>) => {
             state.editableTodo = action.payload
         },
         editTodo: (state, action) => {
-            const {id, name, value} = action.payload
+            const {id, completed, title, text} = action.payload
             const list: ITodo[] = state.activeProject?.todosList || []
             const todo = list.find(todo => todo.id === id)
-            todo && onEditObject(todo, name, value)
+            if (todo) {
+                onEditObject(todo, 'completed', completed)
+                title && onEditObject(todo, 'title', title)
+                text && onEditObject(todo, 'text', text)
+            }
         },
-        onDelete: (state, action: PayloadAction<string>) => {
+        deleteTodo: (state, action: PayloadAction<string>) => {
             const activeProject = state.activeProject as IProject,
                 todoList = state.activeProject?.todosList || []
             activeProject.todosList = todoList.filter(todo => todo.id !== action.payload)
@@ -40,10 +44,9 @@ const slice = createSlice({
             onEditObject(state.activeProject || {}, 'projectName', action.payload)
         },
         resetTodo: () => initialState
-
     },
     extraReducers: {}
 })
 
-export const {setActiveProject, setEditableTodo, editProject, resetTodo, addTodo, editTodo} = slice.actions
+export const {setActiveProject, setEditableTodo, editProject, resetTodo, addTodo, editTodo, deleteTodo} = slice.actions
 export default slice.reducer

@@ -8,7 +8,7 @@ import {TodoList} from "../TodoList/TodoList"
 import './Project.scss'
 import {useDispatch} from "react-redux";
 import {deleteProject} from "../../store/projects/projectsActions"
-import { editProjectName } from '../../store/todoProject/todoActions\''
+import {createTodo, editProjectAction} from '../../store/todoProject/todoActions\''
 
 const {Title} = Typography
 
@@ -23,18 +23,25 @@ export const Project: React.FC<Props> = (props: Props) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        setName(activeProject?.projectName || '')
+        const projectName = activeProject?.projectName || ''
+        name !== projectName && setName(projectName)
     }, [activeProject])
 
     useEffect(() => {
         formIsShow && showOrHideForm(false)
-    }, [activeProject])
+    }, [activeProject, editableTodo])
 
     const onApply = () => {
-        if(name.trim()) {
-            dispatch(editProjectName(name))
+        if (name.trim()) {
+            dispatch(editProjectAction(name))
             setEditForm(false)
         }
+    }
+
+    const onCloseForm = () => showOrHideForm(false)
+
+    const onApplyTodo = (title: string, text: string, completed: boolean) => {
+        dispatch(createTodo({title, text, completed}))
     }
 
     const renderMenu = () =>
@@ -72,14 +79,14 @@ export const Project: React.FC<Props> = (props: Props) => {
                     </div>
             }
             {
-                !formIsShow &&
+                !formIsShow && !editableTodo &&
                 <Button type="dashed" block icon={<PlusOutlined/>} onClick={() => showOrHideForm(true)}>
                     Добавить задачу
                 </Button>
             }
             {
-                (formIsShow || editableTodo) &&
-                <TodoForm showOrHideForm={showOrHideForm}/>
+                formIsShow &&
+                <TodoForm onCloseForm={onCloseForm} onApply={onApplyTodo}/>
             }
             <TodoList/>
         </div>

@@ -1,43 +1,51 @@
 import * as React from 'react'
 import {useEffect, useState} from 'react'
-import {useDispatch} from 'react-redux'
-import {Form, Card} from 'antd'
+import {Form, Card, Checkbox} from 'antd'
 import {CloseOutlined, CheckOutlined} from '@ant-design/icons'
-import {useTypedSelector} from "../../common/hooks";
-import {createTodo} from '../../store/todoProject/todoActions\''
+import {useTypedSelector} from "../../common/hooks"
 
 interface Props {
-    showOrHideForm: React.Dispatch<React.SetStateAction<boolean>>
+    onApply: (title: string, text: string, completed: boolean) => void,
+    onCloseForm: () => void
 }
 
 export const TodoForm: React.FC<Props> = (props: Props) => {
-    const dispatch = useDispatch()
-    const {activeProject} = useTypedSelector(state => state.todo)
+    const {activeProject, editableTodo} = useTypedSelector(state => state.todo)
     const [title, setTitle] = useState('')
     const [text, setText] = useState('')
+    const [completed, setCompleted] = useState(false)
 
     useEffect(() => {
         resetInputs()
     }, [activeProject])
 
+    useEffect(() => {
+        if (editableTodo) {
+            setTitle(editableTodo.title)
+            setText(editableTodo.text)
+            setCompleted(editableTodo.completed)
+        }
+    }, [editableTodo])
+
     const onCreateTodo = () => {
         if (title.trim()) {
-            dispatch(createTodo({title, text}))
+            props.onApply(title, text, completed)
             resetInputs()
         }
     }
 
     const resetInputs = () => {
-        setTitle('')
-        setText('')
+        !title.trim() && setTitle('')
+        !text.trim() && setText('')
+        completed && setCompleted(false)
     }
 
     return (
-        <div className={'todo__form'}>
+        <div className={'todo__form w-100'}>
             <Card
                 actions={[
                     <CheckOutlined className={'icon'} onClick={onCreateTodo}/>,
-                    <CloseOutlined className={'icon'} onClick={() => props.showOrHideForm(false)}/>
+                    <CloseOutlined className={'icon'} onClick={props.onCloseForm}/>
                 ]}
             >
                 <Form>
@@ -58,6 +66,15 @@ export const TodoForm: React.FC<Props> = (props: Props) => {
                                       onChange={e => setText(e.target.value)}/>
                         </div>
                     </Form.Item>
+                    {
+                        editableTodo &&
+                        <Checkbox
+                            checked={completed}
+                            onChange={(e) => setCompleted(e.target.checked)}
+                        >
+                            Выполнено
+                        </Checkbox>
+                    }
                 </Form>
             </Card>
         </div>
@@ -65,5 +82,6 @@ export const TodoForm: React.FC<Props> = (props: Props) => {
 }
 
 TodoForm.defaultProps = {
-    showOrHideForm: () => null
+    onApply: () => null,
+    onCloseForm: () => null
 }

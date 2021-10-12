@@ -4,25 +4,33 @@ import {RootState} from "../../store/rootReducer";
 import {List, Checkbox, Menu, Dropdown} from 'antd';
 import {EditOutlined, EllipsisOutlined, CloseOutlined} from '@ant-design/icons';
 import {ITodo} from "../../models/ITodo";
-import {editTodo} from '../../store/todoProject/todoReducer';
+import {setEditableTodo} from '../../store/todoProject/todoReducer';
+import {deleteTodoAction, updateTodo} from '../../store/todoProject/todoActions\'';
+import {TodoForm} from '../TodoForm/TodoForm';
 
 interface Props {
 }
 
 export const TodoList: React.FC = (props: Props) => {
-    const {activeProject} = useSelector((state: RootState) => state.todo)
+    const {activeProject, editableTodo} = useSelector((state: RootState) => state.todo)
     const dispatch = useDispatch()
 
-    const onChange = (id: string) => (e: any) => {
-        dispatch(editTodo({name: e.target.name, value: e.target.value || e.target.checked, id}))
+    const onChange = (id: string) => (e: any) =>
+        dispatch(updateTodo({id, completed: e.target.checked, title: null, text: null}))
+
+    const onCloseForm = () => dispatch(setEditableTodo(null))
+
+    const onApplyTodo = (id: string) => (title: string, text: string, completed: boolean) => {
+        dispatch(updateTodo({id, completed, title, text}))
+        dispatch(setEditableTodo(null))
     }
 
-    const renderMenu = () =>
+    const renderMenu = (todo: ITodo) =>
         <Menu>
-            <Menu.Item key="1">
+            <Menu.Item key="1" onClick={() => dispatch(setEditableTodo(todo))}>
                 <EditOutlined className={'icon'}/> Редактировать
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="2" onClick={() => dispatch(deleteTodoAction(todo.id))}>
                 <CloseOutlined className={'icon'}/> Удалить
             </Menu.Item>
         </Menu>
@@ -34,17 +42,23 @@ export const TodoList: React.FC = (props: Props) => {
                 renderItem={(todo: ITodo) =>
                     <List.Item
                         key={todo.id}
-                        actions={[
-                            <Dropdown overlay={renderMenu}>
+                        actions={!editableTodo ? [
+                            <Dropdown overlay={() => renderMenu(todo)}>
                                 <EllipsisOutlined className={'icon'}/>
                             </Dropdown>
-                        ]}>
-                        <List.Item.Meta
-                            avatar={<Checkbox name={'completed'} checked={todo.completed}
-                                              onChange={onChange(todo.id)}/>}
-                            title={todo.title}
-                            description={todo.text}
-                        />
+                        ] : []}>
+                        {
+                            editableTodo === todo
+                                ? <TodoForm
+                                    onCloseForm={onCloseForm} onApply={onApplyTodo(todo.id)}
+                                />
+                                : <List.Item.Meta
+                                    avatar={<Checkbox name={'completed'} checked={todo.completed}
+                                                      onChange={onChange(todo.id)}/>}
+                                    title={todo.title}
+                                    description={todo.text}
+                                />
+                        }
                     </List.Item>
                 }
             >
@@ -54,3 +68,4 @@ export const TodoList: React.FC = (props: Props) => {
 }
 
 TodoList.defaultProps = {}
+
