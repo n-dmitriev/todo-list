@@ -2,16 +2,13 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit"
 import {interfaceState} from "./types"
 import {ITodo} from "../../models/ITodo";
 import {IProject} from "../../models/IProject";
+import {onEditObject} from "../../common/utils";
 
 const initialState: interfaceState = {
     activeProject: null,
     editableTodo: null,
     isLoading: false,
     error: null
-}
-
-function foo<K extends string>(val: { [key in K]: any }, key: K, value: any) {
-    val[key] = value
 }
 
 const slice = createSlice({
@@ -31,7 +28,7 @@ const slice = createSlice({
             const {id, name, value} = action.payload
             const list: ITodo[] = state.activeProject?.todosList || []
             const todo = list.find(todo => todo.id === id)
-            todo && foo(todo, name, value)
+            todo && onEditObject(todo, name, value)
         },
         onDelete: (state, action: PayloadAction<string>) => {
             const activeProject = state.activeProject as IProject,
@@ -39,11 +36,14 @@ const slice = createSlice({
             activeProject.todosList = todoList.filter(todo => todo.id !== action.payload)
             state.activeProject = activeProject
         },
+        editProject: (state, action) => {
+            onEditObject(state.activeProject || {}, 'projectName', action.payload)
+        },
         resetTodo: () => initialState
 
     },
     extraReducers: {}
 })
 
-export const {setActiveProject, setEditableTodo, resetTodo, addTodo, editTodo} = slice.actions
+export const {setActiveProject, setEditableTodo, editProject, resetTodo, addTodo, editTodo} = slice.actions
 export default slice.reducer

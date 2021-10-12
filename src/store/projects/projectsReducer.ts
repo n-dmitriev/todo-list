@@ -16,14 +16,21 @@ const projectSlice = createSlice({
         addProject: (state, action: PayloadAction<IProject>) => {
             state.projectList.push(action.payload)
         },
+        removeProject: (state, action) => {
+            state.projectList = state.projectList.filter(project => project.id !== action.payload)
+        },
         setProjects: (state, action: PayloadAction<IProject[]>) => {
             state.projectList = action.payload
+        },
+        updateProjectsList: (state, action: PayloadAction<IProject>) => {
+            const index = state.projectList.findIndex(project => project.id === action.payload.id)
+            state.projectList[index] = action.payload
         },
         resetProjects: () => initialState
     }
 })
 
-export const {setProjects, addProject, resetProjects} = projectSlice.actions
+export const {setProjects, addProject, resetProjects, removeProject, updateProjectsList} = projectSlice.actions
 export default projectSlice.reducer
 
 

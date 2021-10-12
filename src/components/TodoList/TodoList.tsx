@@ -1,10 +1,10 @@
 import * as React from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../store/rootReducer";
-import {List, Checkbox} from 'antd';
-import {EditOutlined, EllipsisOutlined} from '@ant-design/icons';
+import {List, Checkbox, Menu, Dropdown} from 'antd';
+import {EditOutlined, EllipsisOutlined, CloseOutlined} from '@ant-design/icons';
 import {ITodo} from "../../models/ITodo";
-import { editTodo } from '../../store/todoProject/todoReducer';
+import {editTodo} from '../../store/todoProject/todoReducer';
 
 interface Props {
 }
@@ -17,6 +17,16 @@ export const TodoList: React.FC = (props: Props) => {
         dispatch(editTodo({name: e.target.name, value: e.target.value || e.target.checked, id}))
     }
 
+    const renderMenu = () =>
+        <Menu>
+            <Menu.Item key="1">
+                <EditOutlined className={'icon'}/> Редактировать
+            </Menu.Item>
+            <Menu.Item key="2">
+                <CloseOutlined className={'icon'}/> Удалить
+            </Menu.Item>
+        </Menu>
+
     return (
         <div className={'todo__list'}>
             <List
@@ -25,8 +35,9 @@ export const TodoList: React.FC = (props: Props) => {
                     <List.Item
                         key={todo.id}
                         actions={[
-                            <EditOutlined className={'icon'}/>,
-                            <EllipsisOutlined className={'icon'}/>
+                            <Dropdown overlay={renderMenu}>
+                                <EllipsisOutlined className={'icon'}/>
+                            </Dropdown>
                         ]}>
                         <List.Item.Meta
                             avatar={<Checkbox name={'completed'} checked={todo.completed}

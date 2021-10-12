@@ -2,8 +2,7 @@ import * as React from 'react'
 import {Layout, Menu} from "antd";
 import {useEffect, useState} from "react";
 import {RightCircleOutlined, DesktopOutlined} from '@ant-design/icons';
-import {useTypedSelector} from "../../common/hooks";
-import './ProjectMenu.scss'
+import {useTypedSelector} from "../../common/hooks"
 import {useDispatch} from "react-redux";
 import {getProjects} from '../../store/projects/projectsActions';
 import {IProject} from "../../models/IProject"
@@ -15,6 +14,7 @@ interface Props {
 export const ProjectMenu: React.FC<Props> = (props: Props) => {
     const [collapsed, setCollapsed] = useState(false)
     const {projectList} = useTypedSelector(state => state.projects)
+    const {activeProject} = useTypedSelector(state => state.todo)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -27,8 +27,8 @@ export const ProjectMenu: React.FC<Props> = (props: Props) => {
 
     return (
         <Layout.Sider className={'project-menu'} collapsible collapsed={collapsed} onCollapse={setCollapsed}>
-            <div className="project-menu__logo"><DesktopOutlined/> {!collapsed && 'TodoList'}</div>
-            <Menu theme="dark" mode="inline">
+            <div className="app-logo"><DesktopOutlined/> {!collapsed && 'TodoList'}</div>
+            <Menu theme="dark" mode="inline" selectedKeys={[activeProject?.id || '']}>
                 {
                     projectList.map(project =>
                         <Menu.Item

@@ -1,9 +1,9 @@
 import {createAsyncThunk} from "@reduxjs/toolkit"
 import {dataBase} from '../../firebase/firebase'
-import {addDoc, collection, doc, getDocs, query, updateDoc} from "firebase/firestore"
+import {addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc} from "firebase/firestore"
 import {IProject} from "../../models/IProject"
-import {addProject, setProjects} from "./projectsReducer"
-import {setActiveProject} from "../todoProject/todoReducer"
+import {addProject, removeProject, setProjects} from "./projectsReducer"
+import {resetTodo, setActiveProject} from "../todoProject/todoReducer"
 import {ITodo} from "../../models/ITodo";
 
 export const createProject = createAsyncThunk(
@@ -39,12 +39,21 @@ export const getProjects = createAsyncThunk(
             })
             dispatch(setProjects(projects))
         } catch (error: any) {
-            console.log(error)
             return rejectWithValue(error.errorMessage)
         }
     }
 )
 
-
-
+export const deleteProject = createAsyncThunk(
+    'projects/deleteProjects',
+    async (id: string, {rejectWithValue, dispatch}) => {
+        try {
+            await deleteDoc(doc(dataBase, 'projects', id))
+            dispatch(resetTodo())
+            dispatch(removeProject(id))
+        } catch (error: any) {
+            return rejectWithValue(error.errorMessage)
+        }
+    }
+)
 
