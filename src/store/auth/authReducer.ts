@@ -18,7 +18,8 @@ const authSlice = createSlice({
             state.isAuth = action.payload.isAuth
             state.isLoading = false
             state.error = null
-        }
+        },
+        resetAuth: () => initialState
     },
     extraReducers: async (builder) => {
         const {authorization} = await require('./authActions')
@@ -35,5 +36,5 @@ const authSlice = createSlice({
     }
 })
 
-export const {setUserData} = authSlice.actions
+export const {setUserData, resetAuth} = authSlice.actions
 export default authSlice.reducer

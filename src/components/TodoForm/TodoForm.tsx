@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
-import {Form, Input, Card} from 'antd'
+import {Form, Card} from 'antd'
 import {CloseOutlined, CheckOutlined} from '@ant-design/icons'
 import {useTypedSelector} from "../../common/hooks";
 import {createTodo} from '../../store/todoProject/todoActions\''
@@ -21,7 +21,7 @@ export const TodoForm: React.FC<Props> = (props: Props) => {
     }, [activeProject])
 
     const onCreateTodo = () => {
-        if (title.trim() && text.trim()) {
+        if (title.trim()) {
             dispatch(createTodo({title, text}))
             resetInputs()
         }
@@ -36,8 +36,8 @@ export const TodoForm: React.FC<Props> = (props: Props) => {
         <div className={'todo__form'}>
             <Card
                 actions={[
-                    <CheckOutlined onClick={onCreateTodo}/>,
-                    <CloseOutlined onClick={() => props.showOrHideForm(false)}/>
+                    <CheckOutlined className={'icon'} onClick={onCreateTodo}/>,
+                    <CloseOutlined className={'icon'} onClick={() => props.showOrHideForm(false)}/>
                 ]}
             >
                 <Form>

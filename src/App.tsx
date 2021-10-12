@@ -33,7 +33,7 @@ const App = () => {
     return (
         <div>
             <Layout className="app" style={{}}>
-                <ProjectMenu/>
+                {isAuth && <ProjectMenu/>}
                 <Layout className="site-layout">
                     <Header/>
                     {isAuth ? renderPrivateSwitch() : renderPublicSwitch()}

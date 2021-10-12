@@ -38,15 +38,15 @@ export const Project: React.FC<Props> = (props: Props) => {
                         >
                             <Input value={name} onChange={e => setName(e.target.value)}/>
                             <div className={'project__form-buttons'}>
-                                <CheckOutlined/>
-                                <CloseOutlined onClick={() => setEditForm(false)}/>
+                                <CheckOutlined className={'icon'}/>
+                                <CloseOutlined className={'icon'} onClick={() => setEditForm(false)}/>
                             </div>
                         </Form.Item>
                     </Form>
                     :
                     <div className={'project__edit'}>
                         <Title onClick={onApply} level={3}>{activeProject?.projectName}</Title>
-                        <EditOutlined onClick={() => setEditForm(true)}/>
+                        <EditOutlined className={'icon'} onClick={() => setEditForm(true)}/>
                     </div>
             }
             {

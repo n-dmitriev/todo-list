@@ -1,11 +1,13 @@
 import {createAsyncThunk} from "@reduxjs/toolkit"
-import {authWithFirebase, dataBase} from '../../firebase/firebase'
+import {authWithFirebase} from '../../firebase/firebase'
 import {
     signInWithEmailAndPassword,
     onAuthStateChanged, signOut, User
 } from "firebase/auth"
 import {IUser} from "../../models/IUser"
-import {setUserData} from "./authReducer"
+import {resetAuth, setUserData} from "./authReducer"
+import {resetTodo} from "../todoProject/todoReducer"
+import {resetProjects} from "../projects/projectsReducer"
 
 const authChanged = (dispatch: any) => {
     const callback = onAuthStateChanged(authWithFirebase, (user: User | null) => {
@@ -47,10 +49,14 @@ export const logout = createAsyncThunk(
     'auth/checkForAuthorize',
     async (_, {rejectWithValue, dispatch}) => {
         try {
+            dispatch(resetAuth())
+            dispatch(resetTodo())
+            dispatch(resetProjects())
             await signOut(authWithFirebase)
-            dispatch(setUserData({userData: null, isAuth: false}))
         } catch (error: any) {
             return rejectWithValue(error.errorMessage)
         }
     }
 )
+
+

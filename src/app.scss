@@ -6,6 +6,16 @@
   min-height: 100vh;
 }
 
+.icon {
+  color: #545454;
+
+  &:hover {
+    cursor: pointer;
+    color: black;
+  }
+}
+
 textarea {
   resize: none;
 }
+
