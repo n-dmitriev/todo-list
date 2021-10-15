@@ -1,7 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit"
 import {defaultFulfilled, defaultPending, defaultRejected} from "../../common/utils"
 import {IUser} from "../../models/IUser"
-//import {signIn, signUp} from "./authActions"
+import {signIn, signUp} from "./authActions"
 
 export interface interfaceState {
     user: IUser | null,
@@ -30,9 +30,6 @@ const authSlice = createSlice({
         resetAuth: () => initialState
     },
     extraReducers: async (builder) => {
-        console.log(builder)
-        const {signIn, signUp} = await require('./authActions')
-        // console.log(signIn, signUp)
         builder.addCase(signIn.pending, (state) => defaultPending(state))
         builder.addCase(signIn.fulfilled, (state) => defaultFulfilled(state))
         builder.addCase(signIn.rejected, (state, action: any) => defaultRejected(state, action))

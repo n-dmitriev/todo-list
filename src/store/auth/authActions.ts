@@ -5,7 +5,6 @@ import {
     onAuthStateChanged, signOut, User, createUserWithEmailAndPassword, sendPasswordResetEmail
 } from "firebase/auth"
 import {IUser} from "../../models/IUser"
-import {resetAuth, setUserData} from "./authReducer"
 import {resetTodo} from "../todoProject/todoReducer"
 import {resetProjects} from "../projects/projectsReducer"
 
@@ -16,6 +15,7 @@ export const authChanged = (dispatch: any) => {
                 id: user.uid,
                 login: user.email as string
             }
+            const {setUserData} = require('./authReducer')
             dispatch(setUserData({userData, isAuth: true}))
         }
     })
@@ -29,8 +29,7 @@ export const signIn = createAsyncThunk(
             await signInWithEmailAndPassword(authWithFirebase, email, password)
             authChanged(dispatch)
         } catch (error: any) {
-            console.log(error.message, error)
-            return rejectWithValue("Не удалось авторизоваться")
+            return rejectWithValue("Не удалось авторизоваться!")
         }
     }
 )
@@ -42,7 +41,7 @@ export const signUp = createAsyncThunk(
             await createUserWithEmailAndPassword(authWithFirebase, email, password)
             authChanged(dispatch)
         } catch (error: any) {
-            return rejectWithValue(error.errorMessage)
+            return rejectWithValue("Не удалось зарегистрироваться!")
         }
     }
 )
@@ -65,7 +64,7 @@ export const resetPassword = createAsyncThunk(
             sendPasswordResetEmail(authWithFirebase, email)
             authChanged(dispatch)
         } catch (error: any) {
-            return rejectWithValue(error.errorMessage)
+            return rejectWithValue("Не удалось отправить письмо!")
         }
     }
 )
@@ -74,6 +73,7 @@ export const logout = createAsyncThunk(
     'auth/checkForAuthorize',
     async (_, {rejectWithValue, dispatch}) => {
         try {
+            const {resetAuth} = require('./authReducer')
             dispatch(resetAuth())
             dispatch(resetTodo())
             dispatch(resetProjects())

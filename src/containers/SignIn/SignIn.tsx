@@ -21,7 +21,7 @@ export const SignIn: React.FC<Props> = (props: Props) => {
     const router = useHistory()
 
     const onFinish = () => dispatch(signIn({email: email, password}))
-    console.log(error, isLoading)
+
     return (
         <Layout.Content className="login">
             <Form
@@ -33,7 +33,10 @@ export const SignIn: React.FC<Props> = (props: Props) => {
                 <Form.Item
                     label="Почта"
                     name="username"
-                    rules={[{required: true, message: 'Укажите почту!'}, {type: 'email', message: 'Некорректная почта!'}]}
+                    rules={[{required: true, message: 'Укажите почту!'}, {
+                        type: 'email',
+                        message: 'Некорректная почта!'
+                    }]}
                 >
                     <Input
                         value={email} onChange={e => setEmail(e.target.value)}
@@ -52,6 +55,11 @@ export const SignIn: React.FC<Props> = (props: Props) => {
                         onChange={e => setPassword(e.target.value)}
                     />
                 </Form.Item>
+
+                {error &&
+                <div role="alert" className="ant-form-item-explain-error error">
+                    {error}
+                </div>}
 
                 <div className={'login__password'}>
                     <Button type="link" htmlType="button" onClick={() => router.push(RouteNames.RECOVER_PASSWORD)}>
