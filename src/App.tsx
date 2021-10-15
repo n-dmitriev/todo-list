@@ -27,7 +27,7 @@ const App = () => {
     const renderPublicSwitch = () =>
         <Switch>
             {publicRoutes.map(route => <Route {...route} key={route.path}/>)}
-            <Redirect to={RouteNames.LOGIN}/>
+            <Redirect to={RouteNames.SIGN_IN}/>
         </Switch>
 
     return (

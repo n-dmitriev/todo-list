@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit"
 import {dataBase} from '../../firebase/firebase'
-import {addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc} from "firebase/firestore"
+import {addDoc, collection, deleteDoc, doc, getDocs, query, updateDoc, where} from "firebase/firestore"
 import {IProject} from "../../models/IProject"
 import {addProject, removeProject, setProjects} from "./projectsReducer"
 import {resetTodo, setActiveProject} from "../todoProject/todoReducer"
@@ -27,17 +27,20 @@ export const createProject = createAsyncThunk(
 
 export const getProjects = createAsyncThunk(
     'projects/getProjects',
-    async (_, {rejectWithValue, dispatch}) => {
+    async (_, {rejectWithValue, dispatch, getState}) => {
         try {
-            const docRef = query(collection(dataBase, "projects"))
-            const docSnap = await getDocs(docRef)
-            const projects: IProject[] = []
-            docSnap.forEach((doc) => {
-                const project = doc.data()
-                project.todosList = project.todosList.map((todo: ITodo) => todo)
-                projects.push(project as IProject)
-            })
-            dispatch(setProjects(projects))
+            const state: any = getState(), userId = state.auth.user?.id
+            if (userId) {
+                const docRef = query(collection(dataBase, "projects"), where('userId', '==', userId))
+                const docSnap = await getDocs(docRef)
+                const projects: IProject[] = []
+                docSnap.forEach((doc) => {
+                    const project = doc.data()
+                    project.todosList = project.todosList.map((todo: ITodo) => todo)
+                    projects.push(project as IProject)
+                })
+                dispatch(setProjects(projects))
+            }
         } catch (error: any) {
             return rejectWithValue(error.errorMessage)
         }

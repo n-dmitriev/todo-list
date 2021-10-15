@@ -1,18 +1,18 @@
 import * as React from 'react'
 import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../../store/rootReducer";
 import {List, Checkbox, Menu, Dropdown} from 'antd';
 import {EditOutlined, EllipsisOutlined, CloseOutlined} from '@ant-design/icons';
 import {ITodo} from "../../models/ITodo";
 import {setEditableTodo} from '../../store/todoProject/todoReducer';
 import {deleteTodoAction, updateTodo} from '../../store/todoProject/todoActions\'';
 import {TodoForm} from '../TodoForm/TodoForm';
+import {useTypedSelector} from "../../common/hooks";
 
 interface Props {
 }
 
 export const TodoList: React.FC = (props: Props) => {
-    const {activeProject, editableTodo} = useSelector((state: RootState) => state.todo)
+    const {activeProject, editableTodo} = useTypedSelector((state) => state.todo)
     const dispatch = useDispatch()
 
     const onChange = (id: string) => (e: any) =>

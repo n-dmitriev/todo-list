@@ -1,8 +1,14 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
-import {interfaceState} from "./types"
-import {ITodo} from "../../models/ITodo";
-import {IProject} from "../../models/IProject";
-import {onEditObject} from "../../common/utils";
+import {ITodo} from "../../models/ITodo"
+import {IProject} from "../../models/IProject"
+import {onEditObject} from "../../common/utils"
+
+export interface interfaceState {
+    activeProject: IProject | null;
+    editableTodo: ITodo | null,
+    error: string | null,
+    isLoading: boolean
+}
 
 const initialState: interfaceState = {
     activeProject: null,
@@ -12,7 +18,7 @@ const initialState: interfaceState = {
 }
 
 const slice = createSlice({
-    name: 'projects',
+    name: 'todo',
     initialState,
     reducers: {
         setActiveProject: (state, action: PayloadAction<IProject>) => {

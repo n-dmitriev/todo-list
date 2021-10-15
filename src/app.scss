@@ -20,6 +20,24 @@
   margin: 16px;
   color: white;
   font-size: 20px;
+  cursor: pointer;
+}
+
+.login {
+  background: #f0f2f5;
+  display: flex;
+
+  &__form {
+    margin: auto;
+    background-color: white;
+    padding: 30px 20px 10px 20px;
+  }
+
+  &__password {
+    top: -10px;
+    left: -10px;
+    position: relative;
+  }
 }
 
 .m-auto {

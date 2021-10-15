@@ -1,20 +1,20 @@
-import React from "react";
-import {Login} from "../containers/Login/Login";
-import {ProjectsController} from "../containers/ProjectsController/ProjectsController";
-
-export interface IRoute {
-    path: string;
-    component: React.ComponentType;
-    exact?: boolean;
-}
+import {SignIn} from "../containers/SignIn/SignIn"
+import {ProjectsController} from "../containers/ProjectsController/ProjectsController"
+import {SignUp} from "../containers/SignUp/SignUp"
+import {IRoute} from "../models/IRoute"
+import { RecoverPassword } from "../containers/RecoverPassword/RecoverPassword"
 
 export enum RouteNames {
-    LOGIN = '/login',
+    SIGN_IN = '/sign-in',
+    SIGN_UP = '/sign-up',
+    RECOVER_PASSWORD = '/recover-password',
     PROJECTS = '/'
 }
 
 export const publicRoutes: IRoute[] = [
-    {path: RouteNames.LOGIN, exact: true, component: Login}
+    {path: RouteNames.SIGN_IN, exact: true, component: SignIn},
+    {path: RouteNames.SIGN_UP, exact: true, component: SignUp},
+    {path: RouteNames.RECOVER_PASSWORD, exact: true, component: RecoverPassword}
 ]
 
 export const privateRoutes: IRoute[] = [

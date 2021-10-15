@@ -1,6 +1,14 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {interfaceState} from "./types";
-import {setRejected} from "../../common/utils";
+import {createSlice} from "@reduxjs/toolkit"
+import {defaultFulfilled, defaultPending, defaultRejected} from "../../common/utils"
+import {IUser} from "../../models/IUser"
+//import {signIn, signUp} from "./authActions"
+
+export interface interfaceState {
+    user: IUser | null,
+    isAuth: boolean,
+    isLoading: boolean,
+    error: string | null
+}
 
 const initialState: interfaceState = {
     user: null,
@@ -22,17 +30,15 @@ const authSlice = createSlice({
         resetAuth: () => initialState
     },
     extraReducers: async (builder) => {
-        const {authorization} = await require('./authActions')
-
-        builder.addCase(authorization.pending, (state) => {
-            state.error = null
-            state.isLoading = true
-        })
-        builder.addCase(authorization.fulfilled, (state) => {
-            state.isLoading = false
-            state.isAuth = true
-        })
-        builder.addCase(authorization.rejected, (state, action: any) => setRejected(state, action))
+        console.log(builder)
+        const {signIn, signUp} = await require('./authActions')
+        // console.log(signIn, signUp)
+        builder.addCase(signIn.pending, (state) => defaultPending(state))
+        builder.addCase(signIn.fulfilled, (state) => defaultFulfilled(state))
+        builder.addCase(signIn.rejected, (state, action: any) => defaultRejected(state, action))
+        builder.addCase(signUp.pending, (state) => defaultPending(state))
+        builder.addCase(signUp.fulfilled, (state) => defaultFulfilled(state))
+        builder.addCase(signUp.rejected, (state, action: any) => defaultRejected(state, action))
     }
 })
 

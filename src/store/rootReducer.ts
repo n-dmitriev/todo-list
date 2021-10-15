@@ -1,7 +1,7 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import projects from './projects/projectsReducer'
-import auth from './auth/authReducer'
 import todo from './todoProject/todoReducer'
+import auth from './auth/authReducer'
 
 const rootReducer = combineReducers({
     projects, auth, todo

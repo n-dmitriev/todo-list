@@ -1,7 +1,11 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
-import {interfaceState} from "./types"
 import {IProject} from "../../models/IProject"
-import {ITodo} from "../../models/ITodo";
+
+export interface interfaceState {
+    projectList: IProject[];
+    error: string | null,
+    isLoading: boolean
+}
 
 const initialState: interfaceState = {
     projectList: [],

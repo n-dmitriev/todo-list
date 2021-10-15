@@ -5,6 +5,7 @@ import {useDispatch} from "react-redux";
 import {logout} from "../../store/auth/authActions";
 import {LeftOutlined, DesktopOutlined} from '@ant-design/icons'
 import {resetTodo} from '../../store/todoProject/todoReducer';
+import {useHistory} from "react-router-dom";
 
 interface Props {
 }
@@ -13,11 +14,15 @@ export const Header: React.FC<Props> = (props: Props) => {
     const {isAuth} = useTypedSelector(state => state.auth)
     const {activeProject} = useTypedSelector(state => state.todo)
     const dispatch = useDispatch()
+    const router = useHistory()
+
     const onLogout = () => dispatch(logout())
 
     return (
         <Layout.Header>
-            {!isAuth && <div className="app-logo m-auto"><DesktopOutlined/> TodoList</div>}
+            {!isAuth &&
+            <div onClick={() => router.goBack()} className="app-logo m-auto"><DesktopOutlined/> TodoList</div>
+            }
             <Menu selectedKeys={[]} theme="dark" mode="horizontal">
                 {activeProject &&
                 <Menu.Item key="1" onClick={() => dispatch(resetTodo())}>

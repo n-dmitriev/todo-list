@@ -7,6 +7,7 @@ import {useDispatch} from "react-redux";
 import {getProjects} from '../../store/projects/projectsActions';
 import {IProject} from "../../models/IProject"
 import {setActiveProject} from '../../store/todoProject/todoReducer';
+import {useHistory} from "react-router-dom";
 
 interface Props {
 }
@@ -16,6 +17,7 @@ export const ProjectMenu: React.FC<Props> = (props: Props) => {
     const {projectList} = useTypedSelector(state => state.projects)
     const {activeProject} = useTypedSelector(state => state.todo)
     const dispatch = useDispatch()
+    const router = useHistory()
 
     useEffect(() => {
         dispatch(getProjects())
@@ -27,7 +29,9 @@ export const ProjectMenu: React.FC<Props> = (props: Props) => {
 
     return (
         <Layout.Sider className={'project-menu'} collapsible collapsed={collapsed} onCollapse={setCollapsed}>
-            <div className="app-logo"><DesktopOutlined/> {!collapsed && 'TodoList'}</div>
+            <div onClick={() => router.goBack()} className="app-logo">
+                <DesktopOutlined/> {!collapsed && 'TodoList'}
+            </div>
             <Menu theme="dark" mode="inline" selectedKeys={[activeProject?.id || '']}>
                 {
                     projectList.map(project =>
