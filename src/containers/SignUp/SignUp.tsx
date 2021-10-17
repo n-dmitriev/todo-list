@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const SignUp: React.FC<Props> = (props: Props) => {
-    const {isLoading} = useTypedSelector(state => state.auth)
+    const {isLoading, error} = useTypedSelector(state => state.auth)
     const dispatch = useDispatch()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -83,6 +83,11 @@ export const SignUp: React.FC<Props> = (props: Props) => {
                         value={password2}
                         onChange={e => setPassword2(e.target.value)}/>
                 </Form.Item>
+
+                {error &&
+                <div role="alert" className="ant-form-item-explain-error error">
+                    {error}
+                </div>}
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" loading={isLoading} disabled={!isValid || isInit}>

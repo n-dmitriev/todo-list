@@ -13,7 +13,7 @@ interface Props {
 }
 
 export const RecoverPassword: React.FC<Props> = (props: Props) => {
-    const {isLoading} = useTypedSelector(state => state.auth)
+    const {isLoading, error} = useTypedSelector(state => state.auth)
     const dispatch = useDispatch()
     const [email, setEmail] = useState('')
     const router = useHistory()
@@ -22,7 +22,6 @@ export const RecoverPassword: React.FC<Props> = (props: Props) => {
         dispatch(resetPassword(email))
         router.goBack()
     }
-
 
 
     return (
@@ -46,6 +45,11 @@ export const RecoverPassword: React.FC<Props> = (props: Props) => {
                         value={email} onChange={e => setEmail(e.target.value)}
                     />
                 </Form.Item>
+
+                {error &&
+                <div role="alert" className="ant-form-item-explain-error error">
+                    {error}
+                </div>}
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit" loading={isLoading}>
