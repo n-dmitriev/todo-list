@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../redux-toolkit-todo/.idea/redux-toolkit-todo.iml" filepath="$PROJECT_DIR$/../redux-toolkit-todo/.idea/redux-toolkit-todo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../delivery-project/.idea/delivery-project.iml" filepath="$PROJECT_DIR$/../delivery-project/.idea/delivery-project.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/todo-list.iml" filepath="$PROJECT_DIR$/.idea/todo-list.iml" />
     </modules>
   </component>

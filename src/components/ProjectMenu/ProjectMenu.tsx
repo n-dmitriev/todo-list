@@ -1,19 +1,20 @@
 import * as React from 'react'
-import {Layout, Menu} from "antd";
-import {useEffect, useState} from "react";
-import {RightCircleOutlined, DesktopOutlined} from '@ant-design/icons';
-import {useTypedSelector} from "../../common/hooks"
-import {useDispatch} from "react-redux";
-import {getProjects} from '../../store/projects/projectsActions';
-import {IProject} from "../../models/IProject"
-import {setActiveProject} from '../../store/todoProject/todoReducer';
-import {useHistory} from "react-router-dom";
+import {Layout, Menu} from 'antd'
+import {SetStateAction, Dispatch, useEffect} from 'react'
+import {RightCircleOutlined, DesktopOutlined} from '@ant-design/icons'
+import {useTypedSelector} from '../../common/hooks'
+import {useDispatch} from 'react-redux'
+import {getProjects} from '../../store/projects/projectsActions'
+import {IProject} from '../../models/IProject'
+import {setActiveProject} from '../../store/todoProject/todoReducer'
+import {useHistory} from 'react-router-dom'
 
 interface Props {
+    collapsed: boolean,
+    setCollapsed: Dispatch<SetStateAction<boolean>>
 }
 
-export const ProjectMenu: React.FC<Props> = (props: Props) => {
-    const [collapsed, setCollapsed] = useState(false)
+export const ProjectMenu: React.FC<Props> = ({collapsed, setCollapsed}: Props) => {
     const {projectList} = useTypedSelector(state => state.projects)
     const {activeProject} = useTypedSelector(state => state.todo)
     const dispatch = useDispatch()
@@ -49,4 +50,7 @@ export const ProjectMenu: React.FC<Props> = (props: Props) => {
     )
 }
 
-ProjectMenu.defaultProps = {}
+ProjectMenu.defaultProps = {
+    collapsed: false,
+    setCollapsed: () => null
+}
