@@ -8,8 +8,22 @@
 
 .icon {
   color: #545454;
+  -moz-transition: all 0.25s ease-out;
+  -o-transition: all 0.25s ease-out;
+  -webkit-transition: all 0.25s ease-out;
+
+  &_danger {
+    color: #910606 !important;
+  }
+
+  &_apply {
+    color: #21c305 !important;
+  }
 
   &:hover {
+    -webkit-transform: scale(1.15);
+    -ms-transform: scale(1.15);
+    transform: scale(1.15);
     cursor: pointer;
     color: black;
   }
@@ -63,4 +77,10 @@ textarea {
   resize: none;
 }
 
+
+@media (max-width: 400px) {
+  .ant-card-body {
+    padding: 20px 5px 0 5px;
+  }
+}
 

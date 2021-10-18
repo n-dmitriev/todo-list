@@ -65,8 +65,8 @@ export const Project: React.FC<Props> = (props: Props) => {
                         >
                             <Input value={name} onChange={e => setName(e.target.value)}/>
                             <div className={'project__form-buttons'}>
-                                <CheckOutlined className={'icon'} onClick={onApply}/>
-                                <CloseOutlined className={'icon'} onClick={() => setEditForm(false)}/>
+                                <CheckOutlined className={'icon icon_apply'} onClick={onApply}/>
+                                <CloseOutlined className={'icon icon_danger'} onClick={() => setEditForm(false)}/>
                             </div>
                         </Form.Item>
                     </Form>

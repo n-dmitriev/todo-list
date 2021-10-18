@@ -44,8 +44,8 @@ export const TodoForm: React.FC<Props> = (props: Props) => {
         <div className={'todo__form w-100'}>
             <Card
                 actions={[
-                    <CheckOutlined className={'icon'} onClick={onCreateTodo}/>,
-                    <CloseOutlined className={'icon'} onClick={props.onCloseForm}/>
+                    <CheckOutlined className={'icon icon_apply'} onClick={onCreateTodo}/>,
+                    <CloseOutlined className={'icon icon_danger'} onClick={props.onCloseForm}/>
                 ]}
             >
                 <Form>

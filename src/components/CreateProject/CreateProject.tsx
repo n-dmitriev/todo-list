@@ -1,9 +1,9 @@
 import * as React from 'react'
-import {useState} from "react";
-import {Button, Card, Form, Input} from "antd";
+import {useState} from 'react'
+import {Button, Card, Form, Input} from 'antd'
 import {PlusOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons'
-import {useDispatch} from "react-redux";
-import {createProject} from '../../store/projects/projectsActions';
+import {useDispatch} from 'react-redux'
+import {createProject} from '../../store/projects/projectsActions'
 
 interface Props {
 }
@@ -34,15 +34,15 @@ export const CreateProject: React.FC<Props> = (props: Props) => {
                 formIsShow ?
                     <Form>
                         <Card actions={[
-                            <CheckOutlined onClick={onCreateProject}/>,
-                            <CloseOutlined onClick={() => showOrHideForm(false)}/>
+                            <CheckOutlined className={'icon icon_apply'} onClick={onCreateProject}/>,
+                            <CloseOutlined className={'icon icon_danger'} onClick={() => showOrHideForm(false)}/>
                         ]}>
 
                             <Form.Item
                                 name="title"
                                 rules={[{required: true, message: 'Введите название задачи!'}]}
                             >
-                                <Input placeholder={"Название проекта"} value={name}
+                                <Input placeholder={'Название проекта'} value={name}
                                        onChange={onChange}/>
                             </Form.Item>
 
