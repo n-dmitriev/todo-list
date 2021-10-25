@@ -1,23 +1,23 @@
-import {createAsyncThunk} from "@reduxjs/toolkit"
+import {createAsyncThunk} from '@reduxjs/toolkit'
 import {authWithFirebase} from '../../firebase/firebase'
 import {
     signInWithEmailAndPassword,
     onAuthStateChanged, signOut, User, createUserWithEmailAndPassword, sendPasswordResetEmail
-} from "firebase/auth"
-import {IUser} from "../../models/IUser"
-import {resetTodo} from "../todoProject/todoReducer"
-import {resetProjects} from "../projects/projectsReducer"
+} from 'firebase/auth'
+import {IUser} from '../../models/IUser'
+import {resetTodo} from '../todoProject/todoReducer'
+import {resetProjects} from '../projects/projectsReducer'
 
 export const authChanged = (dispatch: any) => {
     const callback = onAuthStateChanged(authWithFirebase, (user: User | null) => {
+        const {setUserData, resetAuth} = require('./authReducer')
         if (user) {
             const userData: IUser = {
                 id: user.uid,
                 login: user.email as string
             }
-            const {setUserData} = require('./authReducer')
             dispatch(setUserData({userData, isAuth: true}))
-        }
+        } else dispatch(resetAuth())
     })
     callback()
 }
@@ -29,7 +29,7 @@ export const signIn = createAsyncThunk(
             await signInWithEmailAndPassword(authWithFirebase, email, password)
             authChanged(dispatch)
         } catch (error: any) {
-            return rejectWithValue("Не удалось авторизоваться!")
+            return rejectWithValue('errors.signIn')
         }
     }
 )
@@ -41,7 +41,7 @@ export const signUp = createAsyncThunk(
             await createUserWithEmailAndPassword(authWithFirebase, email, password)
             authChanged(dispatch)
         } catch (error: any) {
-            return rejectWithValue("Не удалось зарегистрироваться!")
+            return rejectWithValue('errors.signUp')
         }
     }
 )
@@ -64,7 +64,7 @@ export const resetPassword = createAsyncThunk(
             sendPasswordResetEmail(authWithFirebase, email)
             authChanged(dispatch)
         } catch (error: any) {
-            return rejectWithValue("Не удалось отправить письмо!")
+            return rejectWithValue('errors.recover')
         }
     }
 )

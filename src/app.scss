@@ -20,6 +20,16 @@
     color: #21c305 !important;
   }
 
+  &_disabled {
+    color: gray;
+
+    &:hover {
+      transform: none !important;
+      cursor: default !important;
+      color: gray !important;
+    }
+  }
+
   &:hover {
     -webkit-transform: scale(1.15);
     -ms-transform: scale(1.15);

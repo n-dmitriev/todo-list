@@ -9,12 +9,16 @@ import React, {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {checkForAuthorize} from './store/auth/authActions'
 import {Context} from './appContext'
+import BigLoader from './components/UI/BigLoader/BigLoader'
+import {IntlProvider} from 'react-intl'
+import {LOCALES} from './internationalization/locales'
+import {messages} from './internationalization/messages'
 
 const App = () => {
     const [collapsed, setCollapsed] = useState(false)
-    const {isAuth} = useTypedSelector(state => state.auth)
+    const [locale, setLocale] = useState(LOCALES.Ru)
+    const {isAuth, isLoading} = useTypedSelector(state => state.auth)
     const dispatch = useDispatch()
-
 
     useEffect(() => {
         dispatch(checkForAuthorize())
@@ -34,18 +38,18 @@ const App = () => {
         </Switch>
 
     return (
-        <div>
-            <Layout className="app" style={{}}>
+        <IntlProvider messages={messages[locale]} locale={locale} defaultLocale={LOCALES.Ru}>
+            {isLoading && <BigLoader/>}
+            <Layout className="app">
                 {isAuth && <ProjectMenu collapsed={collapsed} setCollapsed={setCollapsed}/>}
-                <Layout className="site-layout">
-                    <Header/>
+                <Layout>
+                    <Header locale={locale} setLocale={setLocale}/>
                     <Context.Provider value={{collapsed}}>
                         {isAuth ? renderPrivateSwitch() : renderPublicSwitch()}
                     </Context.Provider>
                 </Layout>
-
             </Layout>
-        </div>
+        </IntlProvider>
     )
 }
 
