@@ -16,7 +16,7 @@ interface Props {
     setLocale: React.Dispatch<React.SetStateAction<string>>
 }
 
-export const Header: React.FC<Props> = ({locale, setLocale}: Props) => {
+export const Header: React.FC<Props> = ({locale, setLocale}) => {
     const {isAuth} = useTypedSelector(state => state.auth)
     const {activeProject} = useTypedSelector(state => state.todo)
     const dispatch = useDispatch()
@@ -56,9 +56,4 @@ export const Header: React.FC<Props> = ({locale, setLocale}: Props) => {
             </Menu>
         </Layout.Header>
     )
-}
-
-Header.defaultProps = {
-    locale: 'Ru',
-    setLocale: () => null
 }

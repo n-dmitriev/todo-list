@@ -32,5 +32,3 @@ export const ProjectsController: React.FC = (props: Props) => {
         </div>
     )
 }
-
-ProjectsController.defaultProps = {}

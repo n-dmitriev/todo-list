@@ -15,7 +15,7 @@ interface Props {
     setCollapsed: Dispatch<SetStateAction<boolean>>
 }
 
-export const ProjectMenu: React.FC<Props> = ({collapsed, setCollapsed}: Props) => {
+export const ProjectMenu: React.FC<Props> = ({collapsed, setCollapsed}) => {
     const {projectList, isLoading} = useTypedSelector(state => state.projects)
     const {activeProject} = useTypedSelector(state => state.todo)
     const dispatch = useDispatch()
@@ -50,9 +50,4 @@ export const ProjectMenu: React.FC<Props> = ({collapsed, setCollapsed}: Props) =
             </Menu>
         </Layout.Sider>
     )
-}
-
-ProjectMenu.defaultProps = {
-    collapsed: false,
-    setCollapsed: () => null
 }

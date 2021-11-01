@@ -14,7 +14,7 @@ const {Title} = Typography
 interface Props {
 }
 
-export const SignIn: React.FC<Props> = (props: Props) => {
+export const SignIn: React.FC<Props> = (props) => {
     const {isLoading, error} = useTypedSelector(state => state.auth)
     const dispatch = useDispatch()
     const [email, setEmail] = useState('')
@@ -81,5 +81,3 @@ export const SignIn: React.FC<Props> = (props: Props) => {
         </Layout.Content>
     )
 }
-
-SignIn.defaultProps = {}

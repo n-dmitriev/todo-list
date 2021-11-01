@@ -10,7 +10,7 @@ interface Props {
     onCloseForm: () => void
 }
 
-export const TodoForm: React.FC<Props> = (props: Props) => {
+export const TodoForm: React.FC<Props> = (props) => {
     const {activeProject, editableTodo} = useTypedSelector(state => state.todo)
     const [title, setTitle] = useState('')
     const [text, setText] = useState('')
@@ -81,9 +81,4 @@ export const TodoForm: React.FC<Props> = (props: Props) => {
             </Card>
         </div>
     )
-}
-
-TodoForm.defaultProps = {
-    onApply: () => null,
-    onCloseForm: () => null
 }

@@ -68,5 +68,3 @@ export const TodoList: React.FC = (props: Props) => {
     )
 }
 
-TodoList.defaultProps = {}
-

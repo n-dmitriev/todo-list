@@ -16,7 +16,7 @@ const {Title} = Typography
 interface Props {
 }
 
-export const Project: React.FC<Props> = (props: Props) => {
+export const Project: React.FC<Props> = (props) => {
     const [formIsShow, showOrHideForm] = useState(false)
     const [formIsEdit, setEditForm] = useState(false)
     const {editableTodo, activeProject} = useTypedSelector(state => state.todo)
@@ -94,5 +94,3 @@ export const Project: React.FC<Props> = (props: Props) => {
         </div>
     )
 }
-
-Project.defaultProps = {}

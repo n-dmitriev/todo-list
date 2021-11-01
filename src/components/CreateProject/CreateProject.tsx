@@ -10,7 +10,7 @@ import {FormattedMessage, useIntl} from 'react-intl'
 interface Props {
 }
 
-export const CreateProject: React.FC<Props> = (props: Props) => {
+export const CreateProject: React.FC<Props> = (props) => {
     const dispatch = useDispatch()
     const intl = useIntl()
     const [formIsShow, showOrHideForm] = useState(false)
@@ -64,5 +64,3 @@ export const CreateProject: React.FC<Props> = (props: Props) => {
         </React.Fragment>
     )
 }
-
-CreateProject.defaultProps = {}
