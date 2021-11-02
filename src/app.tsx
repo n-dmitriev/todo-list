@@ -42,10 +42,12 @@ const App = () => {
             {isLoading && <BigLoader/>}
             <Layout className="app">
                 {isAuth && <ProjectMenu collapsed={collapsed} setCollapsed={setCollapsed}/>}
-                <Header locale={locale} setLocale={setLocale}/>
-                <Context.Provider value={{collapsed}}>
-                    {isAuth ? renderPrivateSwitch() : renderPublicSwitch()}
-                </Context.Provider>
+                <Layout>
+                    <Header locale={locale} setLocale={setLocale}/>
+                    <Context.Provider value={{collapsed}}>
+                        {isAuth ? renderPrivateSwitch() : renderPublicSwitch()}
+                    </Context.Provider>
+                </Layout>
             </Layout>
         </IntlProvider>
     )
